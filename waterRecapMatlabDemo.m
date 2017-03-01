@@ -21,7 +21,7 @@
    w = s;
 %% A relation parameter.  Try other values.
 % Experiment with omega slightly greater than one.
-omega = 1.001;
+omega = 1;
 %% Relax.
 % Repeatedly replace grid values by relaxed average of four neighbors.
    tfinal = 500;
