@@ -30,4 +30,4 @@ omega = 1;
       set(h,'zdata',U);
       axis(ax)
       drawnow
-end
+   end
