@@ -1,9 +1,9 @@
 function mod_hyp_solver_q()
 M = 500;
-N = 2000;
+N = 1000;
 h0 = @(x) 1+2/5*exp(-1/2*(x).^2/0.5);
 %% Initierer x,t,H og Q
-x = linspace(-10,10,M);
+x = linspace(-20,20,M);
 h = x(2)-x(1);
 t = linspace(0,4,N);
 k = t(2)-t(1);
