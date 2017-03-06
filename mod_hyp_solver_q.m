@@ -14,7 +14,8 @@ H(:,end) = ones(N,1);
 Q = zeros(N,M);
 %% The actual method
 %H = lax_wendroff(H,Q,M,N,k,h);
-H = mod_leap_frog(H,Q,M,N,k,h);
+%H = mod_leap_frog(H,Q,M,N,k,h);
+H = leap_frog(H,Q,M,N,k,h);
 %% Movie
 for i = 1:10:N
    plot(x,H(i,:));  % plot
