@@ -1,4 +1,4 @@
-function H = lax_wendroff(H,Qinn,M,N,k,h)
+function [H,Q] = lax_wendroff(H,Qinn,M,N,k,h)
 G = @(q,h) q^2/h+1/2*9.81*h^2;
 Q(1,:) = Qinn(1,:);
 Q(2,:) = Qinn(2,:);
@@ -14,4 +14,5 @@ for n = 1:N-1
     Q(2,1) = Q(2,2);
 %for å spare oss for minne til Q
     Q(1,:) = Q(2,:);
+end
 end

@@ -6,11 +6,11 @@ tic
 load('Href_t');
 toc
 cnt = 1;
-for i = 9:11
+for i = 11:0.5:13
     tic
-    N = 2^i;
+    N = floor(2^i);
     h(cnt) = 1/(N+2);
-    H = mod_hyp_solver_q(500,2^i);
+    H = mod_hyp_solver_q(200,N,1);
     err = H(end,:)-Href_t(end,:);
     e(cnt) = norm(err)*sqrt(h(cnt));
     cnt = cnt+1;
@@ -18,7 +18,7 @@ for i = 9:11
 end
 loglog(h,e,'o-r')
 hold on
-loglog(h,h.^2*100)
+loglog(h,h.^2*5)
 legend('2-norm','O(k^2)')
 title('Convergence plot wrt t')
 xlabel('steplength')
@@ -26,28 +26,32 @@ ylabel('Error')
 hold off
 
 %% Finner feil i rommet
-load('Href');
+tic
+%load('Href_x')
+toc
+load('Href'); %for t = 1
 cnt = 1;
-for i = 8:10
+for i = 6:9
     tic
     M = 2^i;
-    h(cnt) = 1/(M+2);
-    H = mod_hyp_solver_q(M,4000);
-    x = 2048/(2^i);
+    h(cnt) = 40/(M+2);
+    H = mod_hyp_solver_q(M,2048,1);
+    x = 2048/2^i;
     tel = 1;
     for j = 1:x:2048
-        err(tel) = Href(end,j)-H(end,tel);
+        err(cnt,tel) = Href(end,j)-H(end,tel);
         tel = tel+1;
     end
-    e(cnt) = norm(err)*sqrt(h(cnt));
+    e(cnt) = norm(err(cnt,:))*sqrt(h(cnt));
     cnt = cnt+1;
     toc
 end
 figure
 loglog(h,e,'-o')
 hold on
-loglog(h,h.^2*1000)
-legend('error','O(h^2)')
+loglog(h,h.^2*10)
+loglog(h,h)
+legend('error','O(h^2)','O(h)')
 title('Convergence plot wrt x')
 hold off
 end
