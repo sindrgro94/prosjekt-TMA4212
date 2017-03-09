@@ -11,15 +11,16 @@ H(1,:) = h0(x);
 Q = zeros(N,M);
 %% The actual method
 %H = lax_wendroff(H,Q,M,N,k,h); %Denne blir fort ustabil
-H = mod_leap_frog(H,Q,M,N,k,h); %Forsøk med disperson
-%H = leap_frog(H,Q,M,N,k,h);
+%H = lax_wendroff_BC(H,Q,M,N,k,h);
+% H = leap_frog(H,Q,M,N,k,h);
+H = leap_frog_BC(H,Q,M,N,k,h);
 %H = implicit_metode(H,Q,M,N,k,h); %Solved explicitly - Unstable - page 88
 %% Movie
-%      for i = 1:ceil(N/400):N
-%         plot(x,H(i,:));  % plot
-%         ylim([0,2]); 
-%         xlim([-100,100]); % guarantee consistent height
-%         F(i) = getframe;  % capture it
-%      end
+     for i = 1:ceil(N/400):N %
+        plot(x,H(i,:));  % plot
+        ylim([0,2]); 
+        xlim([-30,30]); % guarantee consistent height
+        F(i) = getframe;  % capture it
+     end
 end
 
