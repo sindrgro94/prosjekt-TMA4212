@@ -1,9 +1,9 @@
 function fullDiscretization(M,N)
     % Solving AX = B
-    x0 = -5;
-    xend = 5;
+    x0 = -20;
+    xend = 20;
     t0 = 0;
-    tend = 1;
+    tend = 30;
     u0 = 0;
     uend = 0;
     h0 = 1;
@@ -16,6 +16,7 @@ function fullDiscretization(M,N)
     B = zeros(2*M,1);
     uPrev = zeros(M,1);
     hPrev = makeH0(M,x);
+    %hPrev = dam_break(x(2:end-1))';
     if length(hPrev) == 1
         return;
     end
@@ -38,16 +39,24 @@ function fullDiscretization(M,N)
         X(:,time) = A\B;
         uPrev = X(1:M,time);
         hPrev = X(M+1:2*M,time);
+        %Tolkning fra halvors kode: Dette er hvertfall ikke likt, men
+        %skj?nte ikke helt hva som skjedde.
+        h0 = hPrev(1);
+        hend = hPrev(end);
+        u0 = -uPrev(1);
+        uend = -uPrev(end);
     end
-    for i = 1:ceil(N/400):N
+%     plotWave(X(M+1:2*M,:),x(2:M+1),t);
+    figure
+    for i = 1:ceil(N/300):N
         plot(x(2:M+1),X(M+1:2*M,i));
-        ylim([0,2]); 
-        xlim([-5,5]);
+        ylim([0.5,1.5]); 
+        xlim([x0,xend]);
         F(i) = getframe;
      end
 end
 function h = makeH0(M,x)
-    h0 = @(x) 1+1/2*exp(-1/2*(x).^2/0.1);
+    h0 = @(x) 1+1/3*exp(-1/2*(x).^2/0.1);
     if M>=20
        h = ones(M,1); 
        hstart = round(M/2-M/5);

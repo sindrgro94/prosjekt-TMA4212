@@ -16,6 +16,8 @@ Q = zeros(N,M);
 H = leap_frog_BC(H,Q,M,N,k,h);
 %H = implicit_metode(H,Q,M,N,k,h); %Solved explicitly - Unstable - page 88
 %% Movie
+%plotWave(H',x,t);
+figure
      for i = 1:ceil(N/400):N %
         plot(x,H(i,:));  % plot
         ylim([0,2]); 
