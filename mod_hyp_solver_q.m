@@ -12,20 +12,21 @@ Q = zeros(N,M);
 %% The actual method
 % H = water_Ground_BC(H,Q,M,N,k,h);
 % H = water(H,Q,M,N,k,h);
-H = water_BC(H,Q,M,N,k,h);
+% H = water_BC(H,Q,M,N,k,h);
 % H = lax_wendroff(H,Q,M,N,k,h); %Denne blir fort ustabil
 % H = lax_wendroff_BC(H,Q,M,N,k,h);
 % H = leap_frog(H,Q,M,N,k,h);
 % H = leap_frog_BC(H,Q,M,N,k,h);
 % H = implicit_metode(H,Q,M,N,k,h); %Solved explicitly - Unstable - page 88
+H = fullDiscretization(M,N)';
 %% Movie
 %plotWave(H',x,t);
-figure
-     for i = 1:ceil(N/400):N %
-        plot(x,H(i,:));  % plot
-        ylim([0,2]); 
-        xlim([-20,20]); % guarantee consistent height
-        F(i) = getframe;  % capture it
-     end
+% figure
+%      for i = 1:ceil(N/400):N %
+%         plot(x,H(i,:));  % plot
+%         ylim([0,2]); 
+%         xlim([-20,20]); % guarantee consistent height
+%         F(i) = getframe;  % capture it
+%      end
 end
 
