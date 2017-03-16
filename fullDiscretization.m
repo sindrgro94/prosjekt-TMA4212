@@ -1,9 +1,9 @@
-function fullDiscretization(M,N)
+function H = fullDiscretization(M,N)
     % Solving AX = B
-    x0 = -20;
-    xend = 20;
+    x0 = -4;
+    xend = 4;
     t0 = 0;
-    tend = 30;
+    tend = 0.5;
     u0 = 0;
     uend = 0;
     h0 = 1;
@@ -46,14 +46,16 @@ function fullDiscretization(M,N)
         u0 = -uPrev(1);
         uend = -uPrev(end);
     end
-%     plotWave(X(M+1:2*M,:),x(2:M+1),t);
-    figure
-    for i = 1:ceil(N/300):N
-        plot(x(2:M+1),X(M+1:2*M,i));
-        ylim([0.5,1.5]); 
-        xlim([x0,xend]);
-        F(i) = getframe;
-     end
+    H = X(M+1:2*M,:);
+%      plotWave(X(M+1:2*M,:),x(2:M+1),t);
+%     figure
+%     for i = 1:ceil(N/300):N
+%         plot(x(2:M+1),X(M+1:2*M,i));
+%         ylim([0.5,1.5]); 
+%         xlim([x0,xend]);
+%         F(i) = getframe;
+%      end
+
 end
 function h = makeH0(M,x)
     h0 = @(x) 1+1/3*exp(-1/2*(x).^2/0.1);
