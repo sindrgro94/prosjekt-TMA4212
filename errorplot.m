@@ -54,7 +54,7 @@ for i = 6:9
 end
 loglog(h1,e1,'-o')
 hold on
-loglog(h1,h1.^2*10,'--')
+loglog(h1,h1.^2,'--')
 loglog(h1,h1,'--')
 legend('Error in 2-norm','O(h^2)','O(h)')
 title('Convergence plot wrt x')
@@ -66,5 +66,5 @@ xlim([min(h1),max(h1)])
 ordenx = polyfit(log(h1),log(e1),1);
 fprintf('F?r tidsteg av orden %1.2f \n', ordent(1));
 fprintf('F?r romsteg av orden %1.2f \n', ordenx(1));
-saveTightFigure(fig,'Figurer/errorFullDiscretization.pdf');
+%saveTightFigure(fig,'Figurer/errorFullDiscretization.pdf');
 end
