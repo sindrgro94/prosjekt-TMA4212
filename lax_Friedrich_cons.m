@@ -11,7 +11,7 @@ for n = 1:N-1
     for m = 2:M-1
         fm = cons(U(:,m-1),U(:,m),p);
         fmp = cons(U(:,m),U(:,m+1),p);
-        Uhel = U(:,m)-p*(fmp-fm);
+        Uhel = 1/2*(U(:,m-1)+U(:,m+1))-p/2*(fmp-fm);
         H(n+1,m) = Uhel(1);
         Q(2,m) = Uhel(2);
     end 
