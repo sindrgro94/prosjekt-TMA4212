@@ -14,15 +14,15 @@ Q = zeros(N,M);
 disp(k/h);
 %% The actual method
 H = lax_Friedrich_cons(H,Q,M,N,k,h);
-% H = water_JAC_BC(H,Q,M,N,k,h);
-% H = water_Ground_BC(H,Q,M,N,k,h);
-% H = water(H,Q,M,N,k,h);
-% H = water_BC(H,Q,M,N,k,h);
+% H = richtmeyer_Ground_BC(H,Q,M,N,k,h);
+% H = richtmeyer(H,Q,M,N,k,h);
+% H = richtmeyer_BC(H,Q,M,N,k,h);
 % H = lax_wendroff(H,Q,M,N,k,h); %Denne blir fort ustabil
 % H = lax_wendroff_BC(H,Q,M,N,k,h);
 % H = leap_frog(H,Q,M,N,k,h);
 % H = leap_frog_BC(H,Q,M,N,k,h);
 % H = implicit_metode(H,Q,M,N,k,h); %Solved explicitly - Unstable - page 88
+% H = fullDiscretization(M,N)';
 %% Movie
 % plotWave(H',x,t)
 % close all
