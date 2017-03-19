@@ -1,9 +1,9 @@
-function H = fullDiscretization(M,N)
+function H = fullDiscretization(M,N,time)
     % Solving AX = B
     x0 = -4;
     xend = 4;
     t0 = 0;
-    tend = 0.5;
+    tend = time;
     u0 = 0;
     uend = 0;
     h0 = 1;

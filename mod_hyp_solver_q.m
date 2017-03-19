@@ -13,24 +13,25 @@ H(1,:) = h0(x);
 Q = zeros(N,M);
 disp(k/h);
 %% The actual method
-H = lax_Friedrich_cons(H,Q,M,N,k,h);
+% H = lax_Friedrich_cons(H,Q,M,N,k,h);
 % H = richtmeyer_Ground_BC(H,Q,M,N,k,h);
-% H = richtmeyer(H,Q,M,N,k,h);
+H = richtmeyer(H,Q,M,N,k,h);
 % H = richtmeyer_BC(H,Q,M,N,k,h);
 % H = lax_wendroff(H,Q,M,N,k,h); %Denne blir fort ustabil
 % H = lax_wendroff_BC(H,Q,M,N,k,h);
 % H = leap_frog(H,Q,M,N,k,h);
 % H = leap_frog_BC(H,Q,M,N,k,h);
 % H = implicit_metode(H,Q,M,N,k,h); %Solved explicitly - Unstable - page 88
-% H = fullDiscretization(M,N)';
+% H = fullDiscretization(M,N,time)';
 %% Movie
-% plotWave(H',x,t)
+plotWave(H',x,t)
 % close all
-     for i = 1:ceil(N/500):N %
-        plot(x,H(i,:));  % plot
-        ylim([0,2]); 
-        xlim([xf,xt]); % guarantee consistent height
-        F(i) = getframe;  % capture it
-     end
-end
+%      for i = 1:N %
+%         plot(x,H(i,:));  % plot
+%         ylim([0,2]); 
+%         xlim([xf,xt]); % guarantee consistent height
+%         F(i) = getframe;  % capture it
+%         pause(time/(15*N)-0.03);
+%      end
+% end
 
