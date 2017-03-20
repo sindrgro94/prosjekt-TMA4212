@@ -32,19 +32,19 @@ time = 0.5;
 % ordent = polyfit(log(h),log(e),1);
 %% Finner feil i rommet
 tic
-steg = 2^10;
+steg = 2^14;
 Href = mod_hyp_solver_q(steg,15000,time);
 toc
 cnt = 1;
 % subplot(1,2,2);
-for i = 6:9
+for i = 6:13
     tic
     M = round(2^i);
-    h1(cnt) = 40/(M+2);
+    h1(cnt) = 20/(M+2);
     H = mod_hyp_solver_q(M,15000,time);
     x = round(steg/2^i);
     tel = 1;
-    for j = 1:x:steg
+    for j = x:x:steg
         err1(cnt,tel) = Href(end,j)-H(end,tel);
         tel = tel+1;
     end
@@ -64,7 +64,7 @@ set(gca,'fontsize',18)
 hold off
 xlim([min(h1),max(h1)])
 ordenx = polyfit(log(h1),log(e1),1);
-% fprintf('F?r tidsteg av orden %1.2f \n', ordent(1));
-fprintf('F?r romsteg av orden %1.2f \n', ordenx(1));
-%saveTightFigure(fig,'Figurer/errorFullDiscretization.pdf');
+% fprintf('Faar tidsteg av orden %1.2f \n', ordent(1));
+fprintf('Faar romsteg av orden %1.2f \n', ordenx(1));
+% saveTightFigure(fig,'Figurer/errorFullDiscretization.pdf');
 end
