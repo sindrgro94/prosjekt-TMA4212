@@ -31,7 +31,7 @@ switch (startHeight)
         h0 = @(x) 1+1/3*exp(-1/2*(x-xShifted).^2/variance);
         H(1,:) = h0(x);
     case 'wavetop'
-        variance = 0.5;
+        variance = 2;
         h0 = @(x) 1+1/3*exp(-1/2*(x).^2/variance);
         H(1,:) = h0(x);
     otherwise

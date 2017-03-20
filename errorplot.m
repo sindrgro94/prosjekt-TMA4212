@@ -2,18 +2,22 @@ function errorplot()
 %Tar ikke inn noe
 %Finner loglog-plot for feilen i mod_hyp_solver_q.m
 time = 0.5;
+metode = 'richtmeyer normal';
+height = 'wavetop';
+x0 = -10;
+xEnd = 10;
 %% finner feil i tiden
 % fig = figure;
 % subplot(1,2,1);
 % tic
-% Href_t = mod_hyp_solver_q(100,2^15,time);
+% Href_t = solveWave(100, 10000, x0, xEnd,time, metode, 0,height, 1);
 % toc
 % cnt = 1;
 % for i = 7:0.5:9
 %     tic
 %     N = floor(2^i);
 %     h(cnt) = 1/(N+2);
-%     H = mod_hyp_solver_q(100,N,time);
+%     H = solveWave(100, N, x0, xEnd,time, metode, 0,height, 1);
 %     err = H(end,:)-Href_t(end,:);
 %     e(cnt) = norm(err)*sqrt(h(cnt));
 %     cnt = cnt+1;
@@ -33,7 +37,8 @@ time = 0.5;
 %% Finner feil i rommet
 tic
 steg = 2^14;
-Href = mod_hyp_solver_q(steg,15000,time);
+Href = solveWave(100, 5000, x0, xEnd,time, metode, 0,height, 1);
+
 toc
 cnt = 1;
 % subplot(1,2,2);
@@ -41,7 +46,7 @@ for i = 6:13
     tic
     M = round(2^i);
     h1(cnt) = 20/(M+2);
-    H = mod_hyp_solver_q(M,15000,time);
+    H = solveWave(M, 5000, x0, xEnd,time, metode, 0,height, 1);
     x = round(steg/2^i);
     tel = 1;
     for j = x:x:steg
