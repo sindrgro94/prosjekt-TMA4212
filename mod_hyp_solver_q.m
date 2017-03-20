@@ -1,9 +1,9 @@
 function H = mod_hyp_solver_q(M,N,time)
 %mod_hyp_solver_q(500,10000,90)
-h0 = @(x) 1+1/3*exp(-1/2*(x-2).^2/0.1);
+h0 = @(x) 1+1/3*exp(-1/2*(x-2).^2/2);
 %% Initierer x,t,H og Q
-xf = -10;
-xt = 10;
+xf = -20;
+xt = 20;
 % L = xt-xf;
 x = linspace(xf,xt,M);
 h = x(2)-x(1);
@@ -39,16 +39,16 @@ H = richtmeyer_BC(H,Q,M,N,k,h);
 toc
 %% Movie
 % plotWave(H,x,t,B)
-% close all
-%      for i = 1:ceil(N/500):N %
-%         plot(x,H(i,:));%+B); %plot wave
-%         hold on
-% %         plot(x,B);% plot sea bed
-%         ylim([min(min(0)),1.4]); 
-%         xlim([xf,xt]); % guarantee consistent height
-%         F(i) = getframe;  % capture it
-% %         pause(time/(15*N)-0.03);
-%         hold off
-%      end
+close all
+     for i = 1:ceil(N/500):N %
+        plot(x,H(i,:));%+B); %plot wave
+        hold on
+%         plot(x,B);% plot sea bed
+        ylim([min(min(0)),1.4]); 
+        xlim([xf,xt]); % guarantee consistent height
+        F(i) = getframe;  % capture it
+%         pause(time/(15*N)-0.03);
+        hold off
+     end
 end
 

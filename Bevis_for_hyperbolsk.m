@@ -25,7 +25,6 @@ syms('t');
 i = sqrt(-1);
 A = [0,1;g*h0,0];
 [V,D] = eig(A);
-G = V*(eye(2)-i*sin(t)*p*D+p^2*(cos(t)-1)*D^2)*inv(V);
+G = V*(eye(2)-i*p*sin(t)*D+p^2*(cos(t)-1)*D^2)*inv(V);
 G = simplify(G);
-G1 = @(t,p) [g*h0*(cos(t)-1)*p^2 + 1,-p*sin(t)*1i;-g*h0*p*sin(t)*1i, g*h0*(cos(t) - 1)*p^2 + 1];
 X = abs(G(1,1))^2+abs(G(1,2))^2+abs(G(2,1))^2+abs(G(2,2))^2;
