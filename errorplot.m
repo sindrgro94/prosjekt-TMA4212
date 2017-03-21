@@ -6,20 +6,20 @@ metode = 'richtmeyer normal';
 height = 'wavetop';
 x0 = -10;
 xEnd = 10;
-plot = false;
+plotOrNot = false;
 %% finner feil i tiden
 fig = figure;
 subplot(1,2,1);
 tic
 refSteg = 2^14;
-Href_t = solveWave(100, refSteg, x0, xEnd,time, metode, 0,height, plot);
+Href_t = solveWave(100, refSteg, x0, xEnd,time, metode, 0,height, plotOrNot);
 toc
 cnt = 1;
 for i = 7:1:9
     tic
     N = floor(2^i);
     h(cnt) = 1/(N+2);
-    H = solveWave(100, N, x0, xEnd,time, metode, 0,height, plot);
+    H = solveWave(100, N, x0, xEnd,time, metode, 0,height, plotOrNot);
     err = H(end,:)-Href_t(end,:);
     e(cnt) = norm(err)*sqrt(h(cnt));
     cnt = cnt+1;
@@ -39,7 +39,7 @@ ordent = polyfit(log(h),log(e),1);
 %% Finner feil i rommet
 tic
 refSteg = 2^12;
-Href = solveWave(refSteg, 1000, x0, xEnd,time, metode, 0,height, plot);
+Href = solveWave(refSteg, 1000, x0, xEnd,time, metode, 0,height, plotOrNot);
 toc
 cnt = 1;
 % subplot(1,2,2);
@@ -47,7 +47,7 @@ for i = 6:13
     tic
     M = round(2^i);
     h1(cnt) = 20/(M+2);
-    H = solveWave(M, 2^12, x0, xEnd,time, metode, 0,height, plot);
+    H = solveWave(M, 2^12, x0, xEnd,time, metode, 0,height, plotOrNot);
     x = round(refSteg/2^i);
     tel = 1;
     for j = x:x:refSteg

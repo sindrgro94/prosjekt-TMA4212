@@ -5,7 +5,12 @@ Q(2,:) = Qinn(2,:);
 U = zeros(2,M);
 clear Qinn;
 p = k/h;
+percentFinished = 0.05;
 for n = 1:N-1
+    if (n/N)>percentFinished
+        fprintf('%.0f percent finished.\n',percentFinished*100);
+        percentFinished = percentFinished + 0.05;
+    end
     U(1,:) = H(n,:);
     U(2,:) = Q(1,:);
     for m = 2:M-1
