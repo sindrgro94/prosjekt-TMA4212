@@ -6,39 +6,40 @@ metode = 'richtmeyer normal';
 height = 'wavetop';
 x0 = -10;
 xEnd = 10;
+plot = false;
 %% finner feil i tiden
-% fig = figure;
-% subplot(1,2,1);
-% tic
-% Href_t = solveWave(100, 10000, x0, xEnd,time, metode, 0,height, 1);
-% toc
-% cnt = 1;
-% for i = 7:0.5:9
-%     tic
-%     N = floor(2^i);
-%     h(cnt) = 1/(N+2);
-%     H = solveWave(100, N, x0, xEnd,time, metode, 0,height, 1);
-%     err = H(end,:)-Href_t(end,:);
-%     e(cnt) = norm(err)*sqrt(h(cnt));
-%     cnt = cnt+1;
-%     toc
-% end
-% loglog(h,e,'o-r')
-% hold on
-% loglog(h,h.^2*100,'--')
-% loglog(h,h,'--')
-% legend('Error in 2-norm','O(k^2)','O(k)')
-% title('Convergence plot wrt t')
-% xlabel('Steplength')
-% ylabel('Error')
-% set(gca,'fontsize',18)
-% hold off
-% ordent = polyfit(log(h),log(e),1);
+fig = figure;
+subplot(1,2,1);
+tic
+refSteg = 2^14;
+Href_t = solveWave(100, refSteg, x0, xEnd,time, metode, 0,height, plot);
+toc
+cnt = 1;
+for i = 7:1:9
+    tic
+    N = floor(2^i);
+    h(cnt) = 1/(N+2);
+    H = solveWave(100, N, x0, xEnd,time, metode, 0,height, plot);
+    err = H(end,:)-Href_t(end,:);
+    e(cnt) = norm(err)*sqrt(h(cnt));
+    cnt = cnt+1;
+    toc
+end
+loglog(h,e,'o-r')
+hold on
+loglog(h,h.^2*100,'--')
+loglog(h,h,'--')
+legend('Error in 2-norm','O(k^2)','O(k)')
+title('Convergence plot wrt t')
+xlabel('Steplength')
+ylabel('Error')
+set(gca,'fontsize',18)
+hold off
+ordent = polyfit(log(h),log(e),1);
 %% Finner feil i rommet
 tic
-steg = 2^14;
-Href = solveWave(100, 5000, x0, xEnd,time, metode, 0,height, 1);
-
+refSteg = 2^12;
+Href = solveWave(refSteg, 1000, x0, xEnd,time, metode, 0,height, plot);
 toc
 cnt = 1;
 % subplot(1,2,2);
@@ -46,10 +47,10 @@ for i = 6:13
     tic
     M = round(2^i);
     h1(cnt) = 20/(M+2);
-    H = solveWave(M, 5000, x0, xEnd,time, metode, 0,height, 1);
-    x = round(steg/2^i);
+    H = solveWave(M, 2^12, x0, xEnd,time, metode, 0,height, plot);
+    x = round(refSteg/2^i);
     tel = 1;
-    for j = x:x:steg
+    for j = x:x:refSteg
         err1(cnt,tel) = Href(end,j)-H(end,tel);
         tel = tel+1;
     end
