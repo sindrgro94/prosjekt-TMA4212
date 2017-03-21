@@ -10,6 +10,7 @@ plotOrNot = false;
 Href = ref.Href;
 Mref = ref.M;
 Nref = ref.N;
+counter = true;
 %% finner feil i tiden
 fig = figure;
 subplot(1,2,1);
@@ -18,7 +19,7 @@ for i = 5:6
     tic
     N = floor(2^i);
     h(cnt) = 1/(N+2);
-    H = solveWave(Mref, N, x0, xEnd,time, metode, 0,height, plotOrNot);
+    H = solveWave(Mref, N, x0, xEnd,time, metode, 0,height, plotOrNot,counter);
     err = H(end,:)-Href(:);
     e(cnt) = norm(err)*sqrt(h(cnt));
     cnt = cnt+1;

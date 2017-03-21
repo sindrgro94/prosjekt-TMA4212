@@ -1,4 +1,4 @@
-function H = fullDiscretization(M,N,time)
+function H = fullDiscretization(M,N,time,countdown)
     % Solving AX = B
     x0 = -4;
     xend = 4;
@@ -24,7 +24,12 @@ function H = fullDiscretization(M,N,time)
     X = zeros(2*M,N+1);
     X(1:M,1) = uPrev;
     X(M+1:2*M,1) = hPrev;
+    percentFinished = 0.05;
     for time = 2:N+1
+        if (n/N)>percentFinished && countdown
+        fprintf('%.0f percent finished.\n',percentFinished*100);
+        percentFinished = percentFinished + 0.05;
+        end
         uLeft = spdiags([k*hPrev, 0*e, -k*hPrev],-1:1,M,M)';
         uRight = spdiags([k*uPrev,2*b*e,-k*uPrev],-1:1,M,M)';
         lLeft = spdiags([k*hPrev.*uPrev,2*b*hPrev, -k*hPrev.*uPrev],-1:1,M,M)';

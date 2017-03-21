@@ -1,4 +1,4 @@
-function H = richtmeyer_BC(H,Qinn,M,N,k,h)
+function H = richtmeyer_BC(H,Qinn,M,N,k,h,countdown)
 F = @(U) [U(2);U(2)^2/U(1)+1/2*9.81*U(1)^2];
 Q(1,:) = Qinn(1,:);
 Q(2,:) = Qinn(2,:);
@@ -7,7 +7,7 @@ clear Qinn;
 p = k/h;
 percentFinished = 0.05;
 for n = 1:N-1
-    if (n/N)>percentFinished
+    if (n/N)>percentFinished && countdown
         fprintf('%.0f percent finished.\n',percentFinished*100);
         percentFinished = percentFinished + 0.05;
     end

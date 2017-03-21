@@ -1,4 +1,4 @@
-function H = solveWave(M, N, x0, xEnd,tEnd, method, groundFunction,startHeight, plotOrNot)
+function H = solveWave(M, N, x0, xEnd,tEnd, method, groundFunction,startHeight, plotOrNot,countdown)
 %% Description:
 % M = number of steps in space
 % N = number of steps in time
@@ -10,7 +10,7 @@ function H = solveWave(M, N, x0, xEnd,tEnd, method, groundFunction,startHeight, 
 % startHeight = string that chooses how the start height of the water
 %               should be. options: -->(
 % plotOrNot = true if supposed to plot, false else.
-
+% countdown = true if countdown should be printed.
 %% initialising standard variables:
 x = linspace(x0,xEnd,M);
 h = x(2)-x(1);
@@ -55,22 +55,22 @@ end
 %% Using correct method
 switch (method)
     case 'leap frog normal'
-        H = leap_frog_BC(H,Q,M,N,k,h);
+        H = leap_frog_BC(H,Q,M,N,k,h,countdown);
     case 'full discretization normal'
-        H = fullDiscretization(M,N,tEnd)';
+        H = fullDiscretization(M,N,tEnd,countdown)';
     case 'richtmeyer normal'
-        H = richtmeyer_BC(H,Q,M,N,k,h);
+        H = richtmeyer_BC(H,Q,M,N,k,h,countdown);
     case 'richtmeyer seabed' 
         H(1,:) = H(1,:)-B;
-        H = richtmeyer_BC_grunn(H,B,x,Q,M,N,k,h);
+        H = richtmeyer_BC_grunn(H,B,x,Q,M,N,k,h,countdown);
     case 'lax friedrich normal'
-        H = lax_Friedrich_cons(H,Q,M,N,k,h);
+        H = lax_Friedrich_cons(H,Q,M,N,k,h,countdown);
     case 'lax friedrich seabed'
         H(1,:) = H(1,:)-B;
-        H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h);
-%       H = lax_Friedrich_seaBed(H,B,x,Q,M,N,k,h)
+        H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,countdown);
+%       H = lax_Friedrich_seaBed(H,B,x,Q,M,N,k,h,countdown)
     case 'lax wendroff normal'
-        H = lax_wendroff_BC(H,Q,M,N,k,h);
+        H = lax_wendroff_BC(H,Q,M,N,k,h,countdown);
     otherwise
         disp('There exist no such method!')
         return

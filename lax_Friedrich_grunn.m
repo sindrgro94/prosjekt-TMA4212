@@ -1,4 +1,4 @@
-function H = lax_Friedrich_grunn(H,B,x,Qinn,M,N,k,h);
+function H = lax_Friedrich_grunn(H,B,x,Qinn,M,N,k,h,countdown)
 F = @(U) [U(2);U(2)^2/U(1)+1/2*9.81*U(1)^2];
 Bd = @(B1,B2,h) [0;-9.81*h*(B1-B2)];
 Q(1,:) = Qinn(1,:);
@@ -6,7 +6,12 @@ Q(2,:) = Qinn(2,:);
 U = zeros(2,M);
 clear Qinn;
 p = k/h;
+percentFinished = 0.05;
 for n = 1:N-1
+    if (n/N)>percentFinished && countdown
+        fprintf('%.0f percent finished.\n',percentFinished*100);
+        percentFinished = percentFinished + 0.05;
+    end
     U(1,:) = H(n,:);
     U(2,:) = Q(1,:);
     for m = 2:M-1
@@ -20,6 +25,6 @@ for n = 1:N-1
     Q(2,(M-2)+2) = -Q(2,(M-2)-2);
     Q(2,1) = -Q(2,5);
     Q(2,2) = -Q(2,4);
-%for å spare oss for minne til Q
+%for ? spare oss for minne til Q
     Q(1,:) = Q(2,:);
 end
