@@ -2,10 +2,9 @@
 clear all
 close all
 clc
-lessAccMethod = 'refMatrices/richtmeyer normal (small M)';
 metode = 'refMatrices/richtmeyer normal';
 ref = load(metode);
-ref = load(lessAccMethod);
+metode = 'richtmeyer normal';
 height = ref.height;
 time = ref.time;
 x0 = ref.x0;
@@ -18,8 +17,8 @@ counter = false;
 %% Choosing what interval to test for space and time (2^x)
 startN = 9;
 endN = 12;
-startM = 5;
-endM = 8;
+startM = 6;
+endM = 9;
 %% Error in time:
 cnt = 1;
 fprintf('Error in time(%0.f tests):\n',endN-startN+1);
@@ -81,5 +80,4 @@ xlim([min(h1),max(h1)])
 ordenx = polyfit(log(h1),log(e1),1);
 fprintf('Faar tidsteg av orden %1.2f \n', ordent(1));
 fprintf('Faar romsteg av orden %1.2f \n', ordenx(1));
-% saveTightFigure(fig,'Figurer/errorFullDiscretization.pdf'); %when using
-% this saveing, set breakpoint before and adjust the figure st. it looks nice.
+% saveTightFigure(fig,'Figurer/figureName.pdf'); 
