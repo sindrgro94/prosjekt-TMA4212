@@ -2,9 +2,9 @@
 clear all
 close all
 clc
-metode = 'refMatrices/richtmeyer normal';
+metode = 'refMatrices/lax wendroff normal';
 ref = load(metode);
-metode = 'richtmeyer normal';
+metode = 'lax wendroff normal';
 height = ref.height;
 time = ref.time;
 x0 = ref.x0;
@@ -15,10 +15,10 @@ Mref = ref.M;
 Nref = ref.N;
 counter = false;
 %% Choosing what interval to test for space and time (2^x)
-startN = 9;
-endN = 12;
-startM = 6;
-endM = 9;
+startN = 10;
+endN = 13;
+startM = 7;
+endM = 10;
 %% Error in time:
 cnt = 1;
 fprintf('Error in time(%0.f tests):\n',endN-startN+1);
@@ -49,7 +49,7 @@ ordent = polyfit(log(h),log(e),1);
 %% Error in space:
 cnt = 1;
 subplot(1,2,2);
-fprintf('Error in space(%0.f tests):\n',endM-startN+1);
+fprintf('Error in space(%0.f tests):\n',endM-startM+1);
 for i = startM:endM
     tic
     M = round(2^i);
