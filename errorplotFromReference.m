@@ -63,7 +63,7 @@ for i = startM:endM
     end
     e1(cnt) = norm(err1(cnt,:))*sqrt(h1(cnt));
     cnt = cnt+1;
-    fprintf('%.0f of %.0f finished.\n',endM-startN+i-startM+1,endN-startN+endM-startM+2)
+    fprintf('%.0f of %.0f finished.\n',endN-startN+i-startM+2,endN-startN+endM-startM+2)
     toc
 end
 loglog(h1,e1,'-o')
