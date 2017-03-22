@@ -2,9 +2,10 @@
 clear all
 close all
 clc
+lessAccMethod = 'refMatrices/richtmeyer normal (small M)';
 metode = 'refMatrices/richtmeyer normal';
 ref = load(metode);
-metode = ref.metode;
+ref = load(lessAccMethod);
 height = ref.height;
 time = ref.time;
 x0 = ref.x0;
