@@ -26,7 +26,7 @@ H(1,:) = H(1,:)-B;
 % Bd = @(x) 0.1*(pi/L * cos(pi*(x-xf)/L) + 1/L);
 %% The actual method
 tic
-[H,Q]= Lax_Wendroff_lin(H,Q,M,N,k,h,x);
+[H,~]= Lax_Wendroff_lin(H,Q,M,N,k,h,x);
 % H1 = lax_Friedrich(H,Q,M,N,k,h);
 % H1 = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,1);
 % H = MacCormack_grunn(H,B,x,Q,M,N,k,h,1);   

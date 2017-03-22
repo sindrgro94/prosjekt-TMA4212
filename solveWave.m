@@ -61,19 +61,14 @@ switch (method)
         H = leap_frog_BC(H,B,x,Q,M,N,k,h,countdown);
     case 'full discretization normal'
         H = fullDiscretization(M,N,tEnd,countdown)';
-%     case 'richtmeyer normal'
-%         H = richtmeyer_BC(H,Q,M,N,k,h,countdown);
-    case 'richtmeyer' % seabed' 
+    case 'richtmeyer'
         H(1,:) = H(1,:)-B;
         H = richtmeyer_BC_grunn(H,B,x,Q,M,N,k,h,countdown);
-%     case 'lax friedrich normal'
-%         H = lax_Friedrich_cons(H,B,x,Q,M,N,k,h,countdown);
-    case 'lax friedrich'% seabed'
+    case 'lax friedrich'
         H(1,:) = H(1,:)-B;
         H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,countdown);
-%       H = lax_Friedrich_seaBed(H,B,x,Q,M,N,k,h,countdown)
-%     case 'lax wendroff normal'
-%         H = lax_wendroff_BC(H,Q,M,N,k,h,countdown);
+    case 'lax wendroff'
+        [H,~] = Lax_Wendroff_lin(H,Q,M,N,k,h,x,countdown);
     otherwise
         disp('There exist no such method!')
         return
@@ -89,7 +84,14 @@ if (plotOrNot)
     steps = tEnd/timeLoop;
     for i = 1:round(N/steps):N
         plot(x,H(i,:)+B); %plot wave
-        ylim([min(B)-0.5,maxY+0.5]); % guarantee consistent height and get some free space
+        if strcmp(method,'lax wendroff')
+            ylim([min(min(H(1,:))),max(max(H(1,:)))])
+            [H2,~] = bolge(x,tEnd/N*i);
+            hold on
+            plot(x,H2) % Plot exact solution
+        else
+            ylim([min(B)-0.5,maxY+0.5]);
+        end% guarantee consistent height and get some free space
         xlim([x0,xEnd]); % guarantee consistent width
         hold on
         plot(x,B);% plot sea bed
