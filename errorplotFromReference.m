@@ -1,7 +1,10 @@
-function errorplotFromReference()
+%% errorplotFromReference
+clear all
+close all
+clc
 metode = 'refMatrices/richtmeyer normal';
 ref = load(metode);
-metode = ref.metode;
+metode = 'richtmeyer normal';
 height = ref.height;
 time = ref.time;
 x0 = ref.x0;
@@ -10,21 +13,28 @@ plotOrNot = false;
 Href = ref.Href;
 Mref = ref.M;
 Nref = ref.N;
-counter = true;
-%% finner feil i tiden
-fig = figure;
-subplot(1,2,1);
+counter = false;
+%% Choosing what interval to test for space and time (2^x)
+startN = 10;
+endN = 13;
+startM = 4;
+endM = 10;
+%% Error in time:
 cnt = 1;
-for i = 5:6
+fprintf('Error in time(%0.f tests):\n',endN-startN+1);
+for i = startN:endN
     tic
     N = floor(2^i);
     h(cnt) = 1/(N+2);
     H = solveWave(Mref, N, x0, xEnd,time, metode, 0,height, plotOrNot,counter);
-    err = H(end,:)-Href(:);
+    err = Href(1,:)-H(end,:);
     e(cnt) = norm(err)*sqrt(h(cnt));
     cnt = cnt+1;
+    fprintf('%.0f of %.0f finished.\n',i-startN+1,endN-startN+endM-startM+2)
     toc
 end
+fig = figure;
+subplot(1,2,1);
 loglog(h,e,'o-r')
 hold on
 loglog(h,h.^2*100,'--')
@@ -36,22 +46,24 @@ ylabel('Error')
 set(gca,'fontsize',18)
 hold off
 ordent = polyfit(log(h),log(e),1);
-%% Finner feil i rommet
+%% Error in space:
 cnt = 1;
-% subplot(1,2,2);
-for i = 4:6
+%subplot(1,2,2);
+fprintf('Error in space(%0.f tests):\n',endM-startM+1);
+for i = startM:endM
     tic
     M = round(2^i);
     h1(cnt) = 20/(M+2);
-    H = solveWave(M, Nref, x0, xEnd,time, metode, 0,height, plotOrNot);
-    x = round(refSteg/2^i);
+    H = solveWave(M, Nref, x0, xEnd,time, metode, 0,height, plotOrNot,counter);
+    x = round(Mref/2^i);
     tel = 1;
-    for j = x:x:refSteg
-        err1(cnt,tel) = Href(j)-H(end,tel);
+    for j = x:x:Mref
+        err1(cnt,tel) = Href(1,j)-H(end,tel);
         tel = tel+1;
     end
     e1(cnt) = norm(err1(cnt,:))*sqrt(h1(cnt));
     cnt = cnt+1;
+    fprintf('%.0f of %.0f finished.\n',endN-startN+i-startM+2,endN-startN+endM-startM+2)
     toc
 end
 loglog(h1,e1,'-o')
@@ -68,6 +80,4 @@ xlim([min(h1),max(h1)])
 ordenx = polyfit(log(h1),log(e1),1);
 fprintf('Faar tidsteg av orden %1.2f \n', ordent(1));
 fprintf('Faar romsteg av orden %1.2f \n', ordenx(1));
-% saveTightFigure(fig,'Figurer/errorFullDiscretization.pdf'); %when using
-% this saveing, set breakpoint before and adjust the figure st it looks nice.
-end
+% saveTightFigure(fig,'Figurer/figureName.pdf'); 
