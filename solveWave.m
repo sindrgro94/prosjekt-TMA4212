@@ -41,17 +41,12 @@ switch (startHeight)
         return
 end
 %% Choosing correct groundfunction
-B = zeros(1,length(x));
 switch (groundFunction)
     case 'cosine in middle'
         widthOfBump = 2;
-        for i = 1:length(x)
-            if x(i) >= -widthOfBump && x(i) <= widthOfBump
-                B(i) = 1/3*(cos(x(i)*2*pi/(2*widthOfBump))+1);
-            end
-        end
+        B = bottom(x,widthOfBump); % See at the bottom of code
     otherwise
-        %do nothing. Normal and flat at 0.  
+        B = zeros(1,length(x)); % Flat sea bed
 end
 
 %% Using correct method
@@ -80,22 +75,31 @@ if (plotOrNot)
     close all
     s = size(H);
     maxY = max(max(H+ones(s(1),1)*B));
-    timeLoop = 0.06; % bigger number gives faster plot and vica verca
+    timeLoop = 0.06; % Bigger number gives faster plot and vica verca
     steps = tEnd/timeLoop;
     for i = 1:round(N/steps):N
-        plot(x,H(i,:)+B); %plot wave
+        plot(x,H(i,:)+B); %Plot wave
+        hold on
         if strcmp(method,'lax wendroff')
             ylim([min(min(H(1,:))),max(max(H(1,:)))])
             [H2,~] = bolge(x,tEnd/N*i);
-            hold on
             plot(x,H2) % Plot exact solution
         else
-            ylim([min(B)-0.5,maxY+0.5]);
-        end% guarantee consistent height and get some free space
-        xlim([x0,xEnd]); % guarantee consistent width
-        hold on
-        plot(x,B);% plot sea bed
+            ylim([min(B)-0.5,maxY+0.5]); % Consistent height, some free space
+        end
+        xlim([x0,xEnd]); % Consistent width
+        plot(x,B); % Plot sea bed
         F = getframe;
         hold off
+    end
+end
+end
+
+function B = bottom(x,widthOfBump)
+    B = zeros(1,length(x));
+    for i = 1:length(x)
+        if x(i) >= -widthOfBump && x(i) <= widthOfBump
+            B(i) = 1/3*(cos(x(i)*2*pi/(2*widthOfBump))+1);
+        end
     end
 end

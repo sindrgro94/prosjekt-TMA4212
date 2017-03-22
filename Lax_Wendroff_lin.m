@@ -1,14 +1,10 @@
-function [H,Q] = Lax_Wendroff_lin(H,Qinn,M,N,k,h,x,countdown)
+function [H,Q] = Lax_Wendroff_lin(H,Q,M,N,k,h,x,countdown)
 g = 9.81;
 height = 0.5;
 A = [0,1;g*height,0];
 A2 = A^2;
-Q = zeros(size(H));
-Q(1,:) = Qinn(1,:);
-Q(2,:) = Qinn(2,:);
 [H(1,:),Q(1,:)] = bolge(x,0);
 p = k/h;
-clear Qinn;
 percentFinished = 0.05;
 for n = 1:N-1
     if (n/N)>percentFinished && countdown
