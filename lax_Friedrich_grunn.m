@@ -1,6 +1,5 @@
 function H = lax_Friedrich_grunn(H,B,x,Qinn,M,N,k,h,countdown)
 F = @(U) [U(2);U(2)^2/U(1)+1/2*9.81*U(1)^2];
-Bd = @(B1,B2,h) [0;-9.81*h*(B1-B2)];
 Q(1,:) = Qinn(1,:);
 Q(2,:) = Qinn(2,:);
 U = zeros(2,M);
@@ -15,9 +14,9 @@ for n = 1:N-1
     U(1,:) = H(n,:);
     U(2,:) = Q(1,:);
     for m = 2:M-1
-        Uhel = 1/2*((U(:,m+1)+U(:,m-1))-p/2*(F(U(:,m+1))-F(U(:,m-1))));
-        H(n+1,m) = Uhel(1);
-        Q(2,m) = Uhel(2)-p/2*9.81*H(n,m)*(B(m+1)-B(m-1));
+        Uhel = 1/2*((U(:,m+1)+U(:,m-1))-p*(F(U(:,m+1))-F(U(:,m-1))));
+        H(n+1,m)    =   Uhel(1);
+        Q(2,m)      =   Uhel(2)-p/2*9.81*H(n,m)*(B(m+1)-B(m-1));
     end 
     H(n+1,M) = H(n+1,M-1);
     H(n+1,1) = H(n+1,2);

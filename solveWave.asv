@@ -32,7 +32,7 @@ switch (startHeight)
         H(1,:) = h0(x);
     case 'wavetop'
         variance = 2;
-        h0 = @(x) 1+1/3*exp(-1/2*(x).^2/variance);
+        h0 = @(x) 1+1/3*exp(-1/2*(x-5).^2/variance);
         H(1,:) = h0(x);
     case 'approx'
         [H(1,:),Q(1,:)] = bolge(x,0);
@@ -47,7 +47,7 @@ switch (groundFunction)
         widthOfBump = 2;
         for i = 1:length(x)
             if x(i) >= -widthOfBump && x(i) <= widthOfBump
-                B(i) = 1/3*(cos(x(i)*2*pi/(2*widthOfBump))+1);
+                B(i) = 1/3*(cos(x(i)*2*pi)+1);
             end
         end
     otherwise
@@ -56,9 +56,8 @@ end
 
 %% Using correct method
 switch (method)
-    case 'leap frog'
-        H(1,:) = H(1,:)-B;
-        H = leap_frog_BC(H,B,x,Q,M,N,k,h,countdown);
+    case 'leap frog normal'
+        H = leap_frog_BC(H,Q,M,N,k,h,countdown);
     case 'full discretization normal'
         H = fullDiscretization(M,N,tEnd,countdown)';
 %     case 'richtmeyer normal'
@@ -72,8 +71,8 @@ switch (method)
         H(1,:) = H(1,:)-B;
         H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,countdown);
 %       H = lax_Friedrich_seaBed(H,B,x,Q,M,N,k,h,countdown)
-%     case 'lax wendroff normal'
-%         H = lax_wendroff_BC(H,Q,M,N,k,h,countdown);
+    case 'lax wendroff normal'
+        H = lax_wendroff_BC(H,Q,M,N,k,h,countdown);
     otherwise
         disp('There exist no such method!')
         return
