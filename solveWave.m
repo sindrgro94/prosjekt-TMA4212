@@ -64,7 +64,7 @@ switch (method)
         H(1,:) = H(1,:)-B;
         H = richtmeyer_BC_grunn(H,B,x,Q,M,N,k,h,countdown);
     case 'lax friedrich normal'
-        H = lax_Friedrich_cons(H,Q,M,N,k,h,countdown);
+        H = lax_Friedrich(H,Q,M,N,k,h,countdown);
     case 'lax friedrich seabed'
         H(1,:) = H(1,:)-B;
         H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,countdown);
