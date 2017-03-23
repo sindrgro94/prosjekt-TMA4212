@@ -4,7 +4,7 @@ close all
 clc
 metode = 'refMatrices/richtmeyer normal';
 ref = load(metode);
-metode = 'richtmeyer normal';
+metode = 'richtmeyer';
 height = ref.height;
 time = ref.time;
 x0 = ref.x0;

@@ -26,7 +26,7 @@ function H = fullDiscretization(M,N,time,countdown)
     X(M+1:2*M,1) = hPrev;
     percentFinished = 0.05;
     for time = 2:N+1
-        if (n/N)>percentFinished && countdown
+        if (time/N)>percentFinished && countdown
         fprintf('%.0f percent finished.\n',percentFinished*100);
         percentFinished = percentFinished + 0.05;
         end

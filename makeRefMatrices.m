@@ -1,7 +1,10 @@
 %% makeRefMatrices
+close all
+clear all
+clc
 time = 0.5;
 counter = true;
-metode = 'lax friedrich normal';
+metode = 'lax friedrich';
 height = 'wavetop';
 x0 = -10;
 xEnd = 10;

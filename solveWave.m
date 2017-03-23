@@ -54,7 +54,7 @@ switch (method)
     case 'leap frog'
         H(1,:) = H(1,:)-B;
         H = leap_frog_BC(H,B,x,Q,M,N,k,h,countdown);
-    case 'full discretization normal'
+    case 'full discretization'
         H = fullDiscretization(M,N,tEnd,countdown)';
     case 'richtmeyer'
         H(1,:) = H(1,:)-B;
