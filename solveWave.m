@@ -72,7 +72,7 @@ end
 %% Plotting if specified
 
 if (plotOrNot)
-    close all
+    figure
     s = size(H);
     maxY = max(max(H+ones(s(1),1)*B));
     timeLoop = 0.06; % Bigger number gives faster plot and vica verca
