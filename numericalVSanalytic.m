@@ -3,49 +3,43 @@
 clear all
 close all
 clc
-M = 2000;
-N = 6000;
+M = 3000;
+N = 10000;
 x0 = -100;
 xEnd = 100;
-tEnd = 0;
+tEnd = 34;
 x = linspace(x0,xEnd,M);
 groundFunction = 'no seabed';
 startHeight = 'approx';
 plotOrNot = false;
 countdown = true;
+
+H1 = solveWave(M, N, x0, xEnd,tEnd, 'lax friedrich', groundFunction,startHeight, plotOrNot,countdown);
+H2 = solveWave(M, N, x0, xEnd,tEnd, 'richtmeyer', groundFunction,startHeight, plotOrNot,countdown);
+
+
 figure 
-subplot(1,3,1) % 0seconds
-H = solveWave(M, N, x0, xEnd,tEnd, 'analytic', groundFunction,startHeight, plotOrNot,countdown);
+subplot(1,3,1) % 0 time
+H = solveWave(M, N, x0, xEnd,0, 'analytic', groundFunction,startHeight, plotOrNot,countdown);
 plot(x,H(end,:),'b');
-% hold on
-% H = solveWave(M, N, x0, xEnd,tEnd, 'lax friedrich', groundFunction,startHeight, plotOrNot,countdown);
-% plot(x,H(end,:),'--g');
-% H = solveWave(M, N, x0, xEnd,tEnd, 'full discretization', groundFunction,startHeight, plotOrNot,countdown);
-% plot(x,H(end,:),'--r');
-% H = solveWave(M, N, x0, xEnd,tEnd, 'richtmeyer', groundFunction,startHeight, plotOrNot,countdown);
-% plot(x,H(end,:),'--m');
-legend('Initial start height')
-subplot(1,3,2) % 5seconds
-tEnd = 5;
+legend('Initial start')
+
+subplot(1,3,2) % tEnd/2 time
+H = solveWave(M, N, x0, xEnd,tEnd/2, 'analytic', groundFunction,startHeight, plotOrNot,countdown);
+plot(x,H(end,:),'b');
+hold on
+plot(x,H1(N/2,:),'--k');
+plot(x,H2(N/2,:),'--r');
+legend('Analytic','Lax Friedrich','Richtmyer')
+xlim([-50 100]);
+ylim([0.49 0.51])
+
+subplot(1,3,3) % tEnd time 
 H = solveWave(M, N, x0, xEnd,tEnd, 'analytic', groundFunction,startHeight, plotOrNot,countdown);
 plot(x,H(end,:),'b');
 hold on
-H = solveWave(M, N, x0, xEnd,tEnd, 'lax friedrich', groundFunction,startHeight, plotOrNot,countdown);
-plot(x,H(end,:),'--g');
-H = solveWave(M, N, x0, xEnd,tEnd, 'full discretization', groundFunction,startHeight, plotOrNot,countdown);
-plot(x,H(end,:),'--r');
-H = solveWave(M, N, x0, xEnd,tEnd, 'richtmeyer', groundFunction,startHeight, plotOrNot,countdown);
-plot(x,H(end,:),'--m');
-legend('Analytic','Lax Friedrich','Full discretization','Richtmyer')
-subplot(1,3,3) %15 seconds
-tEnd = 15; 
-H = solveWave(M, N, x0, xEnd,tEnd, 'analytic', groundFunction,startHeight, plotOrNot,countdown);
-plot(x,H(end,:),'b');
-hold on
-H = solveWave(M, N, x0, xEnd,tEnd, 'lax friedrich', groundFunction,startHeight, plotOrNot,countdown);
-plot(x,H(end,:),'--g');
-H = solveWave(M, N, x0, xEnd,tEnd, 'full discretization', groundFunction,startHeight, plotOrNot,countdown);
-plot(x,H(end,:),'--r');
-H = solveWave(M, N, x0, xEnd,tEnd, 'richtmeyer', groundFunction,startHeight, plotOrNot,countdown);
-plot(x,H(end,:),'--m');
-legend('Analytic','Lax Friedrich','Full discretization','Richtmyer')
+plot(x,H1(N,:),'--k');
+plot(x,H2(N,:),'--r');
+legend('Analytic','Lax Friedrich','Richtmyer')
+xlim([-50 100]);
+ylim([0.49 0.51])
