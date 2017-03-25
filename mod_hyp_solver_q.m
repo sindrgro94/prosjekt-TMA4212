@@ -2,8 +2,8 @@ function H = mod_hyp_solver_q(M,N,time)
 %mod_hyp_solver_q(500,10000,90)
 h0 = @(x) 1+1/3*exp(-1/2*(x).^2/2);
 %% Initierer x,t,H og Q
-xf = -100;
-xt = 100;
+xf = 0;
+xt = 1;
 % L = xt-xf;
 x = linspace(xf,xt,M);
 xfine = linspace(xf,xt,M*50);
@@ -11,7 +11,7 @@ h = x(2)-x(1);
 t = linspace(0,time,N);
 k = t(2)-t(1);
 H = zeros(N,M);
-H(1,:) = dam_break(x);
+H(1,:) = dam_break2(x);
 Q = zeros(N,M);
 disp(k/h);
 B = zeros(1,length(x));
@@ -26,11 +26,11 @@ H(1,:) = H(1,:)-B;
 % Bd = @(x) 0.1*(pi/L * cos(pi*(x-xf)/L) + 1/L);
 %% The actual method
 tic
-[H,~]= Lax_Wendroff_lin(H,Q,M,N,k,h,x);
+% [H,~]= Lax_Wendroff_lin(H,Q,M,N,k,h,x);
 % H1 = lax_Friedrich(H,Q,M,N,k,h);
-% H1 = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,1);
+H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,1);
 % H = MacCormack_grunn(H,B,x,Q,M,N,k,h,1);   
-% H = richtmeyer_BC_grunn(H,B,x,Q,M,N,k,h,1);
+H1 = richtmeyer_BC_grunn(H,B,x,Q,M,N,k,h,1);
 % H1 = richtmeyer(H,Q,M,N,k,h);
 % H1 = zeros(size(H));
 % H1(1,:) = h1(x);
@@ -42,29 +42,35 @@ tic
 % H = implicit_metode(H,Q,M,N,k,h); %Solved explicitly - Unstable - page 88
 % H1 = fullDiscretization(M,N,time)';
 toc
+fig = figure;
+plot(x,H(1,:))
+hold on
+plot(x,B)
+ylim([0-0.05,1.5])
+title('Initial conditions: Dam break')
+xlabel('Length (m)')
+ylabel('Height (m)')
+legend('Water','Sea bed')
+set(gca,'fontsize',18)
+saveTightFigure(fig,'Initial_conditions_Dam break')
+
 %% Movie
 % plotWave(H,x,t,B)
 close all
-
-     for i = 1:ceil(N/500):N %
-        plot(x,H(i,:)+B); %plot wave
+fig = figure;
+     for i = 1:ceil(N/300):130 %
+        plot(x,H(i,:)+B,'b--'); %plot wave
         hold on
-        plot(x,B);
-%         plot(x,H1(i,:)+B)
-%         plot(x,H1(i,:))
-%         plot(x,Q(i,:)./H(i,:))
-        [H2,~] = bolge(xfine,time/N*i);
-        plot(xfine,H2);
-%         plot(x,B);% plot sea bed
+        plot(x,B,'r');
+        plot(x,H1(i,:)+B,'m--');
         if max(max(H)) < 10
-            ylim([min(min(H)),max(max(H))]);%ylim([min(min(H)),max(max(H))]); 
+            ylim([min(min(0-0.05)),max(max(1.5))]);%ylim([min(min(H)),max(max(H))]); 
         else 
             ylim([0,4]);
         end
         xlim([xf,xt]); % guarantee consistent height
         F(i) = getframe;  % capture it
-%         pause(time/(15*N)-0.03);
-        hold off
+        
      end
      
 H = false;

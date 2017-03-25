@@ -1,4 +1,4 @@
-function H = richtmeyer_BC_grunn(H,B,x,Qinn,M,N,k,h,countdown)
+function [H,Q] = richtmeyer_BC_grunn(H,B,x,Qinn,M,N,k,h,countdown)
 F = @(U) [U(2);U(2)^2/U(1)+1/2*9.81*U(1)^2];
 Q(1,:) = Qinn(1,:);
 Q(2,:) = Qinn(2,:);
