@@ -1,27 +1,23 @@
-function H = fullDiscretization(M,N,time,countdown)
+function H = fullDiscretization(hPrev,uPrev,M,N,time,countdown)
     % Solving AX = B
     x0 = -4;
     xend = 4;
     t0 = 0;
     tend = time;
-    u0 = 0;
-    uend = 0;
-    h0 = 1;
-    hend = 1;
+    u0 = uPrev(1,1);
+    uend = uPrev(end,1);
+    h0 = hPrev(1,1);
+    hend = hPrev(end,1);
     g = 9.81;
     x = linspace(x0,xend,M+2);
     t = linspace(t0,tend,N+1);
     b = (xend-x0)/(M+1);
     k = (tend-t0)/N;
     B = zeros(2*M,1);
-    uPrev = zeros(M,1);
-    hPrev = makeH0(M,x);
-    %hPrev = dam_break(x(2:end-1))';
-    if length(hPrev) == 1
-        return;
-    end
     e = ones(M,1);
     X = zeros(2*M,N+1);
+    uPrev = uPrev(:,1);
+    hPrev = hPrev(:,1);
     X(1:M,1) = uPrev;
     X(M+1:2*M,1) = hPrev;
     percentFinished = 0.05;
@@ -44,8 +40,6 @@ function H = fullDiscretization(M,N,time,countdown)
         X(:,time) = A\B;
         uPrev = X(1:M,time);
         hPrev = X(M+1:2*M,time);
-        %Tolkning fra halvors kode: Dette er hvertfall ikke likt, men
-        %skj?nte ikke helt hva som skjedde.
         h0 = hPrev(1);
         hend = hPrev(end);
         u0 = -uPrev(1);

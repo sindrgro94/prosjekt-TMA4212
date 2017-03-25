@@ -18,7 +18,6 @@ t = linspace(0,tEnd,N);
 k = t(2)-t(1);
 H = zeros(N,M);
 Q = zeros(N,M);
-countdown = true;
 %% Choosing correct startHeight
 switch (startHeight)
     case 'dam break cont'
@@ -55,7 +54,7 @@ switch (method)
         H(1,:) = H(1,:)-B;
         H = leap_frog_BC(H,B,x,Q,M,N,k,h,countdown);
     case 'full discretization'
-        H = fullDiscretization(M,N,tEnd,countdown)';
+        H = fullDiscretization(H',Q',M,N,tEnd,countdown)';
     case 'richtmeyer'
         H(1,:) = H(1,:)-B;
         H = richtmeyer_BC_grunn(H,B,x,Q,M,N,k,h,countdown);
@@ -64,6 +63,8 @@ switch (method)
         H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,countdown);
     case 'lax wendroff'
         [H,~] = Lax_Wendroff_lin(H,Q,M,N,k,h,x,countdown);
+    case 'analytic'
+        [H,~] = bolge(x,tEnd);
     otherwise
         disp('There exist no such method!')
         return
