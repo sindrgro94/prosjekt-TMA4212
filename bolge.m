@@ -1,10 +1,10 @@
 function [H,Q] = bolge(x,t)
 L = 40; % Bølgelengde
 k = 2*pi/L;
-T = L/sqrt(9.81*0.5); % L/sqrt(g*h0)
+d = 1;
+T = L/sqrt(9.81*d); % L/sqrt(g*h0)
 omega = 2*pi/T;
 a = 1/100;
-d = 0.5;
 g = 9.81;
 H = zeros(size(x));
 Q = zeros(size(x));
