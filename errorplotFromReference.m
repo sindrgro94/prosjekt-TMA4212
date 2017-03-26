@@ -2,9 +2,9 @@
 clear all
 close all
 clc
-metode = 'refMatrices/richtmeyer normal (too high M)';
+metode = 'refMatrices/referenceMatrixName';
 ref = load(metode);
-metode = 'richtmeyer';
+metode = 'richtmeyer'; %must be the same as refMatrix
 height = ref.height;
 time = ref.time;
 x0 = ref.x0;
@@ -16,37 +16,37 @@ Nref = ref.N;
 counter = false;
 %% Choosing what interval to test for space and time (2^x)
 startN = 10;
-endN = 10;
+endN = 13;
 startM = 10;
 endM = 13;
 %% Error in time:
-% cnt = 1;
-% fprintf('Error in time(%0.f tests):\n',endN-startN+1);
-% for i = startN:endN
-%     tic
-%     N = floor(2^i);
-%     h(cnt) = 1/(N+2);
-%     H = solveWave(Mref, N, x0, xEnd,time, metode, 0,height, plotOrNot,counter);
-%     err = Href(1,:)-H(end,:);
-%     e(cnt) = norm(err)*sqrt(h(cnt));
-%     cnt = cnt+1;
-%     fprintf('%.0f of %.0f finished.\n',i-startN+1,endN-startN+endM-startM+2)
-%     toc
-% end
-% fig = figure;
-% subplot(1,2,1);
-% loglog(h,e,'o-r')
-% hold on
-% loglog(h,h.^2*100,'--')
-% loglog(h,h,'--')
-% legend('Error in 2-norm','O(k^2)','O(k)')
-% title('Convergence plot wrt t')
-% xlabel('Steplength')
-% ylabel('Error')
-% set(gca,'fontsize',18)
-% xlim([min(h),max(h)])
-% hold off
-% ordent = polyfit(log(h),log(e),1);
+cnt = 1;
+fprintf('Error in time(%0.f tests):\n',endN-startN+1);
+for i = startN:endN
+    tic
+    N = floor(2^i);
+    h(cnt) = 1/(N+2);
+    H = solveWave(Mref, N, x0, xEnd,time, metode, 0,height, plotOrNot,counter);
+    err = Href(1,:)-H(end,:);
+    e(cnt) = norm(err)*sqrt(h(cnt));
+    cnt = cnt+1;
+    fprintf('%.0f of %.0f finished.\n',i-startN+1,endN-startN+endM-startM+2)
+    toc
+end
+fig = figure;
+subplot(1,2,1);
+loglog(h,e,'o-r')
+hold on
+loglog(h,h.^2*100,'--')
+loglog(h,h,'--')
+legend('Error in 2-norm','O(k^2)','O(k)')
+title('Convergence plot wrt t')
+xlabel('Steplength')
+ylabel('Error')
+set(gca,'fontsize',18)
+xlim([min(h),max(h)])
+hold off
+ordent = polyfit(log(h),log(e),1);
 %% Error in space:
 cnt = 1;
 subplot(1,2,2);

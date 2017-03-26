@@ -3,8 +3,8 @@
 clear all
 close all
 clc
-M = 3000;
-N = 10000;
+M = 600;
+N = 2000;
 x0 = -100;
 xEnd = 100;
 tEnd = 34;

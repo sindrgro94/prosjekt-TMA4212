@@ -81,13 +81,7 @@ if (plotOrNot)
     for i = 1:round(N/steps):N
         plot(x,H(i,:)+B); %Plot wave
         hold on
-        if strcmp(method,'lax friedrich')
-            ylim([min(min(H(1,:))),max(max(H(1,:)))])
-            [H2,~] = bolge(x,tEnd/N*i);
-            plot(x,H2) % Plot exact solution
-        else
-            ylim([min(B)-0.05,maxY+0.5]); % Consistent height, some free space
-        end
+        ylim([min(B)-0.05,maxY+0.5]); % Consistent height, some free space
         xlim([x0,xEnd]); % Consistent width
         plot(x,B); % Plot sea bed
         F = getframe;

@@ -2,7 +2,7 @@
 clear all
 close all
 clc
-method = 'lax friedrich';
+method = 'lax friedrich'; %'richtmeyer' is the other option
 [Ht,Bt,~] = dam_break_solver(true,method);
 [Hf,Bf,x] = dam_break_solver(false,method);
 [N,~] = size(Hf);
@@ -15,6 +15,7 @@ for i = 1:round(N/300):N
     plot(x,Bf,'b');
     ylim([0,2])
     xlim([0,x(end)]); % Consistent width
+    F = getframe;
     hold off
 end
 %% make subplot
