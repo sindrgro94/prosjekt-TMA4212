@@ -1,5 +1,5 @@
 function [H,B,x] = dam_break_solver(groundFunction)
-M1 = 5000;
+M1 = 1000;
 tEnd = 1;
 x0=0; xEnd = 1;
 x = linspace(x0,xEnd,M1);
@@ -16,10 +16,10 @@ end
 
 %% First Lax-Friedrich
 N = 500;
-M1 = 5000;
+M1 = 1000;
 x = linspace(x0,xEnd,M1);
 h = x(2)-x(1);
-t = linspace(0,0.001,5000);
+t = linspace(0,0.01,5000);
 k = t(2)-t(1);
 H1 = zeros(N,M1);
 Q1 = zeros(N,M1);
@@ -27,7 +27,7 @@ H1(1,:) = dam_break2(x)-B;
 [H1,Q1] = lax_Friedrich_grunn(H1,B,x,Q1,M1,N,k,h,countdown);
 %% Second Richtmyer
 N = 10000;
-M2 = 5000;
+M2 = 1000;
 H = zeros(N,M2);
 Q = zeros(N,M2);
 if M2 ~= M1
@@ -46,7 +46,7 @@ x = linspace(x0,xEnd,M2);
 h = x(2)-x(1);
 t = linspace(0.001,tEnd,5000);
 k = t(2)-t(1);
-H = lax_Friedrich_grunn(H,B,x,Q,M2,N,k,h,countdown);
+H = richtmeyer_BC_grunn(H,B,x,Q,M2,N,k,h,countdown);
 %% Plotting
 fig = figure;
     for i = 1:round(N/300):N
@@ -55,6 +55,7 @@ fig = figure;
         ylim([0,2])
         xlim([x0,xEnd]); % Consistent width
         plot(x,B); % Plot sea bed
+        hold off
         F = getframe;
     end
 end

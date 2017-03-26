@@ -78,10 +78,10 @@ if (plotOrNot)
     maxY = max(max(H+ones(s(1),1)*B));
     timeLoop = 0.06; % Bigger number gives faster plot and vica verca
     steps = tEnd/timeLoop;
-    for i = 1:round(N/steps):N
+    for i = 1:round(N/500):N
         plot(x,H(i,:)+B); %Plot wave
         hold on
-        if strcmp(method,'lax friedrich')
+        if strcmp(method,'laxx friedrich')
             ylim([min(min(H(1,:))),max(max(H(1,:)))])
             [H2,~] = bolge(x,tEnd/N*i);
             plot(x,H2) % Plot exact solution
