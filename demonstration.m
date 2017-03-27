@@ -5,14 +5,12 @@ while choice ~= 1
         'Plot numerical vs analytical solution','Plot dam break with flat and uneven sea-bed');
     switch choice
         case 2
-            H = menu('Choose initial start height','Wavetop center','Wavetop shifted','Analytic wave');
+            H = menu('Choose initial start height','Wavetop center','Wavetop shifted');
             switch H
                 case 1
                     h0 = 'wavetop';
                 case 2
                     h0 = 'wavetop shifted';
-                case 3
-                    h0 = 'approx';
             end
             B = menu('Choose sea-bed','flat','uneven');
             switch B
@@ -22,7 +20,7 @@ while choice ~= 1
                     seaBed = 'cosine in middle';
             end
             method = menu('Choose your method','Leap frog','Full discretization','Richtmyer',...
-                'Lax Friedrich','Lax Wendroff','Analytic');
+                'Lax Friedrich','Lax Wendroff');
             switch method
                 case 1
                     if B == 2
@@ -46,13 +44,6 @@ while choice ~= 1
                         break
                     end
                     method = 'lax wendroff';
-                case 6
-                    if H == 3 && B == 1
-                        method = 'analytic';
-                    else
-                        disp('Analytic solver can not solve this case');
-                        break;
-                    end
             end
             solveWave(100, 5000, -5, 5 , 2 , method, seaBed,h0, true,true);
         case 3

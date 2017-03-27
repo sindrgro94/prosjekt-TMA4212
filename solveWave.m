@@ -62,7 +62,7 @@ switch (method)
         H(1,:) = H(1,:)-B;
         H = lax_Friedrich_grunn(H,B,x,Q,M,N,k,h,countdown);
     case 'lax wendroff'
-        [H,~] = Lax_Wendroff_lin(H,Q,M,N,k,h,x,countdown);
+        [H,~] = lax_wendroff_BC(H,B,x,Q,M,N,k,h,countdown);
     case 'analytic'
         [H,~] = bolge(x,tEnd);
     otherwise

@@ -5,7 +5,7 @@ G = @(q,h) q^2/h+1/2*9.81*h^2;
 t = linspace(0,k,10);
 khat = t(2)-t(1);
 Hhat = H(1:length(t),:);
-[Hhat,Q] = lax_wendroff_BC(Hhat,B,x,Qinn,M,100,khat,h,1); %her skjer det en feil
+[Hhat,Q] = richtmeyer_BC_grunn(Hhat,B,x,Qinn,M,100,khat,h,countdown);
 H(2,:) = Hhat(end,:);
 p = k/h;
 clear Qinn;
